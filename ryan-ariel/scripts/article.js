@@ -28,15 +28,14 @@ Article.prototype.toHtml = function () {
   return template(this);
 };
 
-// REVIEW: There are some other functions that also relate to all articles across the board, rather than just single instances. Object-oriented programming would call these "class-level" functions, that are relevant to the entire "class" of objects that are Articles.
+// REVIEWED: There are some other functions that also relate to all articles across the board, rather than just single instances. Object-oriented programming would call these "class-level" functions, that are relevant to the entire "class" of objects that are Articles.
 
-// REVIEW: This function will take the rawData, how ever it is provided, and use it to instantiate all the articles. This code is moved from elsewhere, and encapsulated in a simply-named function for clarity.
+// REVIEWED: This function will take the rawData, how ever it is provided, and use it to instantiate all the articles. This code is moved from elsewhere, and encapsulated in a simply-named function for clarity.
 
 // COMMENTED: Where is this function called? What does 'rawData' represent now? How is this different from previous labs?
 // This function is called just below inside of the if statement of the Article.fetchAll function. rawData represents the parameter of the function. rawData used to be an array of article object values (key/value pairs) in previous labs.
 Article.loadAll = rawData => {
-
-  
+ 
   rawData.sort((a, b) => (new Date(b.publishedOn)) - (new Date(a.publishedOn)))
 
   rawData.forEach(articleObject => Article.all.push(new Article(articleObject)))
@@ -44,7 +43,7 @@ Article.loadAll = rawData => {
 
 // REVIEWED: This function will retrieve the data from either a local or remote source, and process it, then hand off control to the View.
 Article.fetchAll = () => {
-  // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
+  // REVIEWED: What is this 'if' statement checking for? Where was the rawData set to local storage?
   if (localStorage.rawData) {
     Article.loadAll(JSON.parse(localStorage.getItem("rawData")));
   } else {
@@ -52,7 +51,6 @@ Article.fetchAll = () => {
       function(data) {
         let articleData = JSON.stringify(data);
         localStorage.setItem('rawData', articleData);
-
         Article.loadAll(JSON.parse(localStorage.getItem("rawData")));
       },
       function(err) {
@@ -61,3 +59,4 @@ Article.fetchAll = () => {
     )
   }
 }
+//For this function we made the Ajax call to get the file and used .then to make the script wait until it was done. First we had to stringify the data and then store it, so the data we stored would make sense. Then we could get the data from local store, parse it, and pass it to the Article.loadAll function to be displayed.
