@@ -39,8 +39,6 @@ Article.loadAll = rawData => {
 
   rawData.forEach(articleObject => Article.all.push(new Article(articleObject)));
 
-  // Article.all.forEach(article => article.toHtml());
-  // console.log(Article.all);
 }
 
 // REVIEWED: This function will retrieve the data from either a local or remote source, and process it, then hand off control to the View.
@@ -57,6 +55,7 @@ Article.fetchAll = () => {
       Article.loadAll(retrievedJSON);
       articleView.initIndexPage();
       localStorage.setItem('rawData', JSON.stringify(retrievedJSON));
+      //COMMENT: We used console logs to determine where the article data was going.  This allowed us to work through the necessary sequence.  We were able to get it to article.all which the articleView.initIndexPage needed in order to render it to the DOM.
     });
   }
 }

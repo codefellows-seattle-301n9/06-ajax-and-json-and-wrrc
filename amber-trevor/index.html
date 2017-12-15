@@ -84,7 +84,8 @@
     <script src="scripts/article.js"></script>
     <script src="scripts/articleView.js"></script>
     <script>
-      Article.fetchAll();   
+      Article.fetchAll();
+      <!-- COMMENT: This function grabs the data from the JSON file using AJAX if there is no local storage data.  It thens run the function that will process the data and append it to the DOM.  If there is local storage it uses that to process the page. -->   
     </script>
   </body>
 </html>
