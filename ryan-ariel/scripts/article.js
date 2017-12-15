@@ -35,6 +35,8 @@ Article.prototype.toHtml = function () {
 // COMMENTED: Where is this function called? What does 'rawData' represent now? How is this different from previous labs?
 // This function is called just below inside of the if statement of the Article.fetchAll function. rawData represents the parameter of the function. rawData used to be an array of article object values (key/value pairs) in previous labs.
 Article.loadAll = rawData => {
+
+  
   rawData.sort((a, b) => (new Date(b.publishedOn)) - (new Date(a.publishedOn)))
 
   rawData.forEach(articleObject => Article.all.push(new Article(articleObject)))
@@ -44,16 +46,14 @@ Article.loadAll = rawData => {
 Article.fetchAll = () => {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
   if (localStorage.rawData) {
-
-    Article.loadAll();
-
+    Article.loadAll(JSON.parse(localStorage.getItem("rawData")));
   } else {
-    $.getJSON('./data/hackerIpsum.json').then(
+    $.getJSON('../data/hackerIpsum.json').then(
       function(data) {
-        let rawData = data;
-        localStorage.setItem(rawData);
+        let articleData = JSON.stringify(data);
+        localStorage.setItem('rawData', articleData);
 
-        Article.loadAll();
+        Article.loadAll(JSON.parse(localStorage.getItem("rawData")));
       },
       function(err) {
         console.error(err);
