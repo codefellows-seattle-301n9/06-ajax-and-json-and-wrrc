@@ -48,43 +48,40 @@ Article.fetchAll = () => {
   // If 'rawData' exists in local storage, then run the Article.loadAll() method. If it doesn't, then retrieve the 'rawData' using an $.ajax() request, post into local storage, then run Article.loadAll(). Initially, rawData was not set to local storage. This functionality had to be implemented in the 'else' statement.
 
   if (localStorage.rawData) {
-    $.ajax({
-      type: 'HEAD',
-      url: '',
-      complete: function(XMLHttpRequest, textStatus) {
-        let eTagOne = XMLHttpRequest.getResponseHeader('ETag');
-        console.log('original ETag: ', eTagOne);
+
+    $.getJSON('../data/hackerIpsum.json').done(function(rawData, message, xhr) {
+      let eTagNew = xhr.getResponseHeader('ETag');
+      console.log('Original ETag: ', localStorage['ETag']);
+      console.log('New ETag', eTagNew);
+      if (localStorage['ETag'] !== eTagNew) {
+        console.log('ETags do not match!')
+        localStorage.removeItem('rawData');
+        localStorage.setItem('rawData', JSON.stringify(rawData));
+        Article.loadAll(JSON.parse(JSON.stringify(rawData)));
+        articleView.initIndexPage();
+      }
+      else {
+        console.log('ETags match!');
+        Article.loadAll(JSON.parse(JSON.stringify(rawData)));
+        articleView.initIndexPage();
       }
     });
 
-    $.ajax({
-      type: 'HEAD',
-      url: '../data/hackerIpsum.json',
-      dataType: 'json',
-      ifModified: true,
-      // success: function(XMLHttpRequest, textStatus) {
-      //   alert('HEAD request successful!');
-      //   let eTag = XMLHttpRequest.getResponseHeader('ETag');
-      // },
-      // error: function() {
-      //   alert('HEAD request failed!');
-      // },
-      complete: function(XMLHttpRequest, textStatus) {
-        let eTagNew = XMLHttpRequest.getResponseHeader('ETag');
-        console.log('New ETag:', eTagNew);
-      }
-    });
-
-    Article.loadAll();
+    //Article.loadAll();
 
   }
   else {
     // TODONE
     // COMMENTED: The code below (1) retrieve the rawData from the .json file via proper pathway, (2) convert rawData object to string, (3) set rawData to local storage with key variable 'newStorageData', (4) pulled local storage string and parsed it, (5) run Article.loadAll(), (6) and run articleView.initIndexPage(). If execution fails, run alert.
-    $.getJSON('../data/hackerIpsum.json').done(function(rawData) {
 
+    $.getJSON('../data/hackerIpsum.json').done(function(rawData, message, xhr) {
+      let eTagOrig = xhr.getResponseHeader('ETag');
       let data = JSON.stringify(rawData);
+
       localStorage.setItem('rawData', data);
+      localStorage.setItem('ETag', eTagOrig);
+      console.log('ETag Original: ', eTagOrig);
+
       Article.loadAll(JSON.parse(data));
       articleView.initIndexPage();
     }).fail(function() {
