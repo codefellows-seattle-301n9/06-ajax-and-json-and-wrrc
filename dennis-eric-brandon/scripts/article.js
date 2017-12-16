@@ -44,16 +44,19 @@ Article.loadAll = rawData => {
 Article.fetchAll = () => {
   // REVIEWED: What is this 'if' statement checking for? Where was the rawData set to local storage? The 'if' is checking if the rawdata is already in local storage or not. If it is...it will load it. If not, it will search exeternally for it
   if (localStorage.rawData) {
-
-    Article.loadAll();
-
-  } else {
-  $.getJSON('./data/hackerIpsum.json',(json) => {
-    var newJson = json;
-    Article.loadAll(newJson);
+    var rawData = localStorage.getItem('rawData');
+    rawData = JSON.parse(rawData);
+    Article.loadAll(rawData);
     articleView.initIndexPage();
-    console.log(Article.all);
-  })  
+  
+  } else {
+    $.getJSON('./data/hackerIpsum.json',(json) => {
+      var newJson = json;
+      Article.loadAll(newJson);
+      articleView.initIndexPage();
+      // We used json to get the data from the hackerIpsum.json and passed it into an arrow function. We then set up a new variable that takes the new data into a variable newJson. We then call the function Article.loadAll with the json data into the article by calling the initIndexPage which renders the page.
+      localStorage.setItem('rawData', JSON.stringify(newJson));
+    })  
   }
 };
 Article.fetchAll();
