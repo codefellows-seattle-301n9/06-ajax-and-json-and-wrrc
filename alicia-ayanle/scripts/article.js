@@ -14,6 +14,7 @@ Article.all = [];
 
 // COMMENT: Why isn't this method written as an arrow function?
 // PUT YOUR RESPONSE HERE
+// 'this' context does not work with arrow functions
 Article.prototype.toHtml = function() {
   let template = Handlebars.compile($('#article-template').text());
 
@@ -22,6 +23,7 @@ Article.prototype.toHtml = function() {
   // COMMENT: What is going on in the line below? What do the question mark and colon represent? How have we seen this same logic represented previously?
   // Not sure? Check the docs!
   // PUT YOUR RESPONSE HERE
+  // ternary operator functions as an efficient way to assign variables instead of using 'if/else' statements
   this.publishStatus = this.publishedOn ? `published ${this.daysAgo} days ago` : '(draft)';
   this.body = marked(this.body);
 
@@ -34,6 +36,7 @@ Article.prototype.toHtml = function() {
 
 // COMMENT: Where is this function called? What does 'rawData' represent now? How is this different from previous labs?
 // PUT YOUR RESPONSE HERE
+// this function is called in the 'fetchAll method within the constructor'
 Article.loadAll = rawData => {
   rawData.sort((a,b) => (new Date(b.publishedOn)) - (new Date(a.publishedOn)))
 
