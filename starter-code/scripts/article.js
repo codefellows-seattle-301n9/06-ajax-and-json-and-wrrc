@@ -39,7 +39,7 @@ Article.loadAll = rawData => {
 
   rawData.forEach(articleObject => Article.all.push(new Article(articleObject)))
 }
-
+console.log(Article.loadAll())
 // REVIEW: This function will retrieve the data from either a local or remote source, and process it, then hand off control to the View.
 Article.fetchAll = () => {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
@@ -47,7 +47,7 @@ Article.fetchAll = () => {
 
     Article.loadAll();
 
-  } else {
+  } else { 
 
   }
 }
