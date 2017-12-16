@@ -1,6 +1,9 @@
 'use strict';
 
+
+
 function Article (rawDataObj) {
+
   this.author = rawDataObj.author;
   this.authorUrl = rawDataObj.authorUrl;
   this.title = rawDataObj.title;
@@ -42,12 +45,13 @@ Article.loadAll = rawData => {
 
 // REVIEW: This function will retrieve the data from either a local or remote source, and process it, then hand off control to the View.
 Article.fetchAll = () => {
+  console.log('fetchAll');
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?
   if (localStorage.rawData) {
 
     Article.loadAll();
 
   } else {
-
+    $.getJSON('data/hackeripsum.json');
   }
 }
