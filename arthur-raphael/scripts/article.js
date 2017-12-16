@@ -13,7 +13,7 @@ function Article (rawDataObj) {
 Article.all = [];
 
 // COMMENT: Why isn't this method written as an arrow function?
-// PUT YOUR RESPONSE HERE: It has a this.
+// PUT YOUR RESPONSE HERE: It has a 'this' and 'this' changes it's context when inside arrow functions.
 Article.prototype.toHtml = function() {
   let template = Handlebars.compile($('#article-template').text());
 
@@ -44,10 +44,14 @@ Article.loadAll = rawData => {
 Article.fetchAll = () => {
   // REVIEW: What is this 'if' statement checking for? Where was the rawData set to local storage?  Answer: if localStorage has a key of rawData
   if (localStorage.rawData) {
-
+    
+    //TODO
+    // If rawData is in local Storage, fetch it, parse it, and passit to Article.loadAll()
     Article.loadAll(JSON.parse(localStorage.rawData));
 
   } else {
+    //TODO
+    // If local storage doesn't have rawData, let's create it and put it there, then pass it to Article.loadAll();
     $.getJSON('../data/hackerIpsum.json').done(function(data, message, xhr){
       console.log(data)
       localStorage.setItem('rawData', JSON.stringify(data));
