@@ -48,20 +48,35 @@ Article.fetchAll = () => {
     //TODONE
     let getData = localStorage.getItem('rawData');
     let blogData = JSON.parse(getData);
-    console.log('I am local storage');
     Article.loadAll(blogData);
-    Article.all.forEach(Article => {
-      $('#articles').append(Article.toHtml())});
-
-  } else {
+    articleView.initIndexPage();
+    var jqXHR = $.ajax({
+      type: 'HEAD',
+      url: '../data/hackerIpsum.json',
+      dataType: 'json',
+      complete: function(XMLHttpRequest, textStatus){
+        var eTag = XMLHttpRequest.getResponseHeader('ETag');
+        if(localStorage['ETag'] !== eTag) {
+          showArticles();
+        }
+        console.log('respone etag=', eTag, ' LS etag=', localStorage['ETag']);
+        Article.loadAll(blogData);
+        articleView.initIndexPage();
+      }
+    });
+  } else showArticles();
+  
+  function showArticles() {
     //TODONE
-    let rawData = $.getJSON('../data/hackerIpsum.json').then(
-      function(rawData) {
-        console.log(rawData);
+    var rawData = $.getJSON('../data/hackerIpsum.json').then(
+      function(rawData, message, xhr) {
+        let eTag = xhr.getResponseHeader('ETag');
+        console.log(eTag);
         Article.loadAll(rawData);
-        Article.all.forEach(Article => {
-          $('#articles').append(Article.toHtml())})
+        articleView.initIndexPage();
         localStorage.setItem('rawData',JSON.stringify(rawData));
+        localStorage.setItem('ETag', eTag);
+        
         console.log('setting local storage');
       },
       // COMMENT: we determined the sequence for this section by a lot of trial and error. we knew the load.all had to run first to populate the article array and then the forEach method could come in and append the array to the DOM.
