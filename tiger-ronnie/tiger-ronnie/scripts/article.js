@@ -48,25 +48,28 @@ Article.fetchAll = () => {
   if (localStorage.rawData) {
   // TODO
   ///if raw data dose not exists then retrive data
-    Article.loadAll(localStorage.rawData);
-    articleView.initIndexPage();
-  } 
+
+    Article.loadAll(JSON.parse(localStorage.rawData));
+
+    // localStorage.rawData = JSON.parseInt(rawData);
+
+  }
 
   else {
   // TODO
 
 
-    $.getJSON('/home/tigerhsu/code-301/06-ajax-and-json-and-wrrc/tiger-ronnie/tiger-ronnie/data/hackerIpsum.json')
+    $.getJSON('./data/hackerIpsum.json')
       .then(function(rawData) {
         ///load all data into article all with .load all fuction above.
         Article.loadAll(rawData);
 
-        localStorage.rawData = JSON.strigify(rawData)
+        localStorage.setItem('rawData', rawData);
 
         console.log('Succeeded', rawData)
       }, function(err) {
         console.error('Error', err)
       })
-    console.log("rawdata")
+
   }
 }
