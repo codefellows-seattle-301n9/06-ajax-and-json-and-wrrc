@@ -50,12 +50,13 @@ Article.fetchAll = () => {
     Article.loadAll(rawData);
     articleView.initIndexPage();
   } else {
-    $.getJSON('../data/hackerIpsum.json', function(json) {
-      let retrievedJSON = json;
+    $.getJSON('data/hackerIpsum.json').then(function(rawData) {
+      let retrievedJSON = rawData;
       Article.loadAll(retrievedJSON);
       articleView.initIndexPage();
       localStorage.setItem('rawData', JSON.stringify(retrievedJSON));
-      //COMMENT: We used console logs to determine where the article data was going.  This allowed us to work through the necessary sequence.  We were able to get it to article.all which the articleView.initIndexPage needed in order to render it to the DOM.
+    }, function(err) {
+      console.error(err);
     });
   }
 }
