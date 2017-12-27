@@ -6,8 +6,6 @@
 ## Overview
 Use a local JSON file to render it's content.
 
-
-
 ## Getting Started
 
 Pull Starter code from git and read through the todos.

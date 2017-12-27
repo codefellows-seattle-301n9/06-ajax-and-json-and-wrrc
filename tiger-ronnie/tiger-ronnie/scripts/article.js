@@ -47,19 +47,15 @@ Article.fetchAll = () => {
 
   if (localStorage.rawData) {
   // TODO
-  ///if raw data dose not exists then retrive data
 
     Article.loadAll(JSON.parse(localStorage.rawData));
-
-    // localStorage.rawData = JSON.parseInt(rawData);
 
   }
 
   else {
   // TODO
 
-
-    $.getJSON('./data/hackerIpsum.json')
+    $.getJSON('../data/hackerIpsum.json')
       .then(function(rawData) {
         ///load all data into article all with .load all fuction above.
         Article.loadAll(rawData);
