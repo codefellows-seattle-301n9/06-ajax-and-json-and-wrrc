@@ -111,12 +111,9 @@ articleView.initIndexPage = () => {
     $('#articles').append(article.toHtml())
   });
 
-
-  $(document).ready(function(){
-    articleView.populateFilters();
-    articleView.handleCategoryFilter();
-    articleView.handleAuthorFilter();
-    articleView.handleMainNav();
-    articleView.setTeasers();
-  });
+  articleView.populateFilters();
+  articleView.handleCategoryFilter();
+  articleView.handleAuthorFilter();
+  articleView.handleMainNav();
+  articleView.setTeasers();
 };
